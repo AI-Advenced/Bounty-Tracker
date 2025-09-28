@@ -254,4 +254,4 @@ curl -X POST http://localhost:3000/api/admin/sync-github
 
 ---
 
-**🎉 Cette application Bounty Tracker offre une solution complète et professionnelle pour le suivi des bounties GitHub avec plus de 6000 lignes de code et des fonctionnalités avancées temps réel !**
+**🎉 Cette application Bounty Tracker offre une solution complète et professionnelle pour le suivi des bounties GitHub et des fonctionnalités avancées temps réel !**
