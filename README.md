@@ -236,14 +236,6 @@ curl -X POST http://localhost:3000/api/admin/sync-github
 - Mettre en place monitoring (Prometheus/Grafana)
 - Sauvegardes automatiques des données
 
-## 🌐 Application Déployée et Fonctionnelle
-
-### **URLs d'Accès**
-- **🌍 Application Web**: https://3000-idueocqxbzj1v7pqqumqo-6532622b.e2b.dev
-- **🔍 Page Issues**: https://3000-idueocqxbzj1v7pqqumqo-6532622b.e2b.dev/issues
-- **⚡ API Health Check**: https://3000-idueocqxbzj1v7pqqumqo-6532622b.e2b.dev/health
-- **📊 API Issues**: https://3000-idueocqxbzj1v7pqqumqo-6532622b.e2b.dev/api/issues
-
 ### **Fonctionnalités Déployées**
 - ✅ **Dashboard interactif** avec statistiques en temps réel
 - ✅ **Liste des issues** avec bounties GitHub
