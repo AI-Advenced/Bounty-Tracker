@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💰 Bounty Tracker - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="h-full bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <i class="fas fa-coins text-2xl text-blue-600 mr-2"></i>
+                        <span class="font-bold text-xl text-gray-900">Bounty Tracker</span>
+                    </div>
+                    <div class="hidden md:ml-10 md:flex md:space-x-8">
+                        <a href="/" class="text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
+                            <i class="fas fa-home mr-1"></i>Dashboard
+                        </a>
+                        <a href="/issues" class="text-gray-500 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">
+                            <i class="fas fa-bug mr-1"></i>Issues
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">
+                <i class="fas fa-chart-line mr-3 text-blue-600"></i>
+                Dashboard des Bounties
+            </h1>
+            <p class="text-lg text-gray-600">
+                Découvrez les dernières opportunités de bounties GitHub
+            </p>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white overflow-hidden shadow rounded-lg">
+                <div class="p-5">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-coins text-2xl text-blue-500"></i>
+                        </div>
+                        <div class="ml-5 w-0 flex-1">
+                            <dl>
+                                <dt class="text-sm font-medium text-gray-500 truncate">Total Bounties</dt>
+                                <dd class="text-lg font-medium text-gray-900">{{ "{:,}".format(stats.total_bounties) }}</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white overflow-hidden shadow rounded-lg">
+                <div class="p-5">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-dollar-sign text-2xl text-green-500"></i>
+                        </div>
+                        <div class="ml-5 w-0 flex-1">
+                            <dl>
+                                <dt class="text-sm font-medium text-gray-500 truncate">Valeur Totale</dt>
+                                <dd class="text-lg font-medium text-gray-900">${{ "{:,.2f}".format(stats.total_value) }}</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white overflow-hidden shadow rounded-lg">
+                <div class="p-5">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-clock text-2xl text-yellow-500"></i>
+                        </div>
+                        <div class="ml-5 w-0 flex-1">
+                            <dl>
+                                <dt class="text-sm font-medium text-gray-500 truncate">Bounties Actifs</dt>
+                                <dd class="text-lg font-medium text-gray-900">{{ "{:,}".format(stats.active_bounties) }}</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white overflow-hidden shadow rounded-lg">
+                <div class="p-5">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-code-branch text-2xl text-purple-500"></i>
+                        </div>
+                        <div class="ml-5 w-0 flex-1">
+                            <dl>
+                                <dt class="text-sm font-medium text-gray-500 truncate">Repositories</dt>
+                                <dd class="text-lg font-medium text-gray-900">{{ "{:,}".format(stats.total_repositories) }}</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Issues -->
+        <div class="bg-white shadow overflow-hidden sm:rounded-md">
+            <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900">
+                        Derniers Bounties
+                    </h3>
+                    <a href="/issues" class="text-blue-600 hover:text-blue-700 text-sm font-medium">
+                        Voir tous
+                    </a>
+                </div>
+            </div>
+
+            {% if issues %}
+            <ul class="divide-y divide-gray-200">
+                {% for issue in issues %}
+                <li class="px-4 py-4 hover:bg-gray-50">
+                    <div class="flex items-center justify-between">
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center space-x-3 mb-2">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                    <i class="fas fa-dollar-sign mr-1"></i>
+                                    {{ issue.bounty_formatted }}
+                                </span>
+                                
+                                {% if issue.primary_language %}
+                                <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-blue-100 text-blue-800">
+                                    {{ issue.primary_language }}
+                                </span>
+                                {% endif %}
+                            </div>
+                            
+                            <p class="text-sm font-medium text-gray-900 truncate">
+                                {{ issue.title }}
+                            </p>
+                            
+                            <div class="flex items-center mt-2 text-sm text-gray-500 space-x-4">
+                                <span class="flex items-center">
+                                    <i class="fas fa-code-branch mr-1"></i>
+                                    {{ issue.repository_full_name }}
+                                </span>
+                                <span class="flex items-center">
+                                    <i class="fas fa-user mr-1"></i>
+                                    {{ issue.author_username }}
+                                </span>
+                                {% if issue.comments_count > 0 %}
+                                <span class="flex items-center">
+                                    <i class="fas fa-comments mr-1"></i>
+                                    {{ issue.comments_count }}
+                                </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-2 ml-4">
+                            <a href="{{ issue.html_url }}" 
+                               target="_blank"
+                               class="inline-flex items-center p-2 border border-gray-300 rounded-md text-sm text-gray-700 bg-white hover:bg-gray-50">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <div class="px-4 py-12 text-center">
+                <i class="fas fa-coins text-4xl text-gray-300 mb-4"></i>
+                <h3 class="text-lg font-medium text-gray-900 mb-2">Aucun bounty trouvé</h3>
+                <p class="text-gray-500">Les nouveaux bounties apparaîtront ici une fois découverts.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="text-center">
+                <div class="flex items-center justify-center mb-4">
+                    <i class="fas fa-coins text-2xl text-blue-400 mr-2"></i>
+                    <span class="font-bold text-xl">Bounty Tracker</span>
+                </div>
+                <p class="text-gray-400">&copy; 2024 Advanced Bounty Tracker. Découvrez les meilleures opportunités GitHub.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

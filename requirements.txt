@@ -1,0 +1,56 @@
+# Core FastAPI dependencies
+fastapi>=0.100.0
+uvicorn[standard]>=0.20.0
+python-multipart
+jinja2>=3.0.0
+python-jose[cryptography]
+passlib[bcrypt]
+
+# Database
+sqlalchemy>=2.0.0
+alembic
+
+# HTTP requests and API integrations
+httpx
+aiohttp
+requests
+
+# Task scheduling and background jobs
+schedule
+apscheduler
+
+# WebSocket support
+websockets
+sse-starlette
+
+# Authentication and security
+bcrypt
+pyjwt
+cryptography
+
+# Data processing and analysis
+pandas
+numpy
+
+# Email notifications
+pydantic>=2.0.0
+pydantic-settings
+email-validator
+
+# Development and testing
+pytest
+pytest-asyncio
+
+# Monitoring and logging
+loguru
+
+# Static files and templates
+aiofiles
+
+# Additional utilities
+python-dateutil
+pytz
+humanize
+click
+rich
+typer
